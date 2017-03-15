@@ -4,9 +4,9 @@ close all;
 clc;
 tic;
 
-I=imread('index.jpeg');
-figure(1);
-imshow(I);
+I=imread('yanye.jpg');
+% figure(1);
+% imshow(I);
 % f=rgb2gray(I); figure(3) imshow(f)
 [m,n,k]=size(I);
 if(k==3)
@@ -15,17 +15,18 @@ else
     a=I;
 end
 
-[m,n]=size(a);
 
+%添加噪声
 %b=imnoise(a,'salt & pepper',0.003);
 %b=imnoise(b,'gaussian',0,0.0015);
 %b = IMNOISE(a,'speckle',0.09);
 %b=a;
-a0=double(a);
+
+a0=double(a);%a0:   220x218 double   存放图像的灰度值矩阵
 h=1;
 a1=zeros(m,n);
 
-%计算平均领域灰度的一维灰度直方图
+%计算平均领域灰度的一维灰度直方图,3*3 取平均   a2:  220x218 uint8    平均领域灰度矩阵
 for i=1:m
     for j=1:n
         for k=-h:h
@@ -51,16 +52,21 @@ for i=1:m
     for j=1:n
         c=a0(i,j);
         d=double(a2(i,j));
-        fxy(c+1,d+1)=fxy(c+1,d+1)+1;
+        fxy(c+1,d+1)=fxy(c+1,d+1)+1;%统计二维灰度值出现频数
     end
 end
 %figure,
 %  mesh(fxy);
 %  title('二维灰度直方图');
-Pxy=fxy/m/n;
+
+
+Pxy=fxy/m/n; %联合概率Pij
 P0=zeros(256,256);
 Ui=zeros(256,256);
 Uj=zeros(256,256);
+
+
+%以下是相关均值矢量的计算
 P0(1,1)=Pxy(1,1);
 for i=2:256
     P0(1,i)=P0(1,i-1)+Pxy(1,i);
@@ -73,6 +79,7 @@ for i=2:256
         P0(i,j)=P0(i,j-1)+P0(i-1,j)-P0(i-1,j-1)+Pxy(i,j);
     end
 end
+
 P1=ones(256,256)-P0;
 Ui(1,1)=0;
 for i=2:256
@@ -86,6 +93,7 @@ for i=2:256
         Ui(i,j)=Ui(i,j-1)+Ui(i-1,j)-Ui(i-1,j-1)+(i-1)*Pxy(i,j);
     end
 end
+
 Uj(1,1)=0;
 for i=2:256
     Uj(1,i)=Uj(1,i-1)+(i-1)*Pxy(1,i);
@@ -98,6 +106,7 @@ for i=2:256
         Uj(i,j)=Uj(i,j-1)+Uj(i-1,j)-Uj(i-1,j-1)+(j-1)*Pxy(i,j);
     end
 end
+
 uti=0;
 utj=0;
 for i=1:256
@@ -107,7 +116,7 @@ for i=1:256
     end
 end
 
-%计算类间方差
+%计算类间类间离散测度
 for i=1:256
     for j=1:256
         if P0(i,j)~=0&P1(i,j)~=0
@@ -143,62 +152,8 @@ for i=1:m
 end
 %显示图片
 figure(2),
+subplot(1,2,1);
+imshow(a);
+subplot(1,2,2);
 imshow(z);
 toc
-
-% [m,n,k]=size(I);
-% if(k==3)
-%     a=rgb2gray(I);
-% else
-%     a=I;
-% end
-% count=imhist(a);
-% [m,n]=size(a);
-% N=m*n;
-% L=256;
-% count=count/N;
-% 
-% for i=1:L
-%     if count(i)~=0
-%         st=i-1;
-%         break;
-%     end
-% end
-% for i=L:-1:1
-%     if count(i)~=0
-%         nd=i-1;
-%         break;
-%     end
-% end
-% f=count(st+1:nd+1);  
-% p=st;   q=nd-st;
-% u=0;
-% for i=1:q
-%     u=u+f(i)*(p+i-1); 
-%     ua(i)=u;           
-% end;
-% 
-% for i=1:q
-%     w(i)=sum(f(1:i));  
-% end;
-% 
-% d=(u*w-ua).^2./(w.*(1-w));
-% [y,tp]=max(d);  
-% th=tp+p;
-% 
-% 
-% 
-% 
-% for i=1:m
-%     for j=1:n
-%         if a(i,j)>th
-%             a(i,j)=255;
-%         else
-%             a(i,j)=0;
-%         end
-%     end
-% end
-% figure(2),imshow(a);
-
-
-
