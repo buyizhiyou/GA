@@ -1,18 +1,9 @@
 clear; 
 clc; 
-tic 
-a=imread('yanye.jpg');       %Read a image  
-%a=imread('d:\image\clock.tif','tif'); 
-%a=imread('d:\image\zhuangjia.tiff','tiff'); 
-%a=a(:,:,1); 
-% % a=M; 
-% %load('source_N0.02.mat'); 
-% %a=X; 
-%a=imread('syn1-g2.gif');  
-%load('装甲车N_0.01.mat'); 
-%a=b; 
-%a=noise_h; 
-subplot(1,2,1); 
+tic ;%tic  ,toc 记录时间 
+
+a=imread('yanye.jpg');     
+subplot(1,3,1); 
 imshow(a);   
 [m,n]=size(a); 
    
@@ -51,9 +42,10 @@ for i=1:m
         fxy(c+1,d+1)=fxy(c+1,d+1)+1; 
      end 
   end 
-%  figure, 
-%  mesh(fxy); 
-%  title('二维灰度直方图'); 
+%  figure
+subplot(1,3,2); 
+mesh(fxy); 
+title('二维灰度直方图'); 
 Pxy=fxy/m/n; 
 P0=zeros(256,256); 
 Ui=zeros(256,256); 
@@ -103,12 +95,7 @@ for i=1:256
         utj=utj+(j-1)*Pxy(i,j); 
     end 
 end 
-% for i=1:256 
-%     for j=1:256 
-%       Ui1(i,j)=Ui(256,256)-Ui(i,j); 
-%       Uj1(i,j)=Uj(256,256)-Uj(i,j); 
-%     end 
-% end 
+
 %计算类间方差 
 hmax=0; 
 for i=1:256 
@@ -130,20 +117,18 @@ for i=1:256
          end 
      end 
  end 
-hmax 
-s 
-t 
+hmax ;
+s ;
+t ;
 z=ones(m,n);  
-%c=zeros(m,n);   
 for i=1:m 
     for j=1:n 
       if a(i,j)<=s&a2(i,j)<=t  
-      %if double(b(i,j))+double(a2(i,j))<=s+t   
        z(i,j)=0;       
       end 
   end 
 end 
 
-subplot(1,2,2); 
+subplot(1,3,3); 
 imshow(z); 
 toc

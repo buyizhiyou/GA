@@ -3,7 +3,11 @@ clear all;
 close all;
 clc;
 tic;
-I=imread('yanye.jpg');
+
+I=imread('index.jpeg');
+figure(1);
+imshow(I);
+% f=rgb2gray(I); figure(3) imshow(f)
 [m,n,k]=size(I);
 if(k==3)
     a=rgb2gray(I);
@@ -20,6 +24,7 @@ end
 a0=double(a);
 h=1;
 a1=zeros(m,n);
+
 %计算平均领域灰度的一维灰度直方图
 for i=1:m
     for j=1:n
@@ -33,14 +38,12 @@ for i=1:m
                 if (q<=0)|(q>n)
                     q=j;
                 end
-                a1(i,j)=a0(p,q)+a1(i,j);
+                a1(i,j)=a0(p,q)+a1(i,j);   
             end
-        end
         a2(i,j)=uint8(1/9*a1(i,j));
+       end
     end
 end
-
-
 
 fxy=zeros(256,256);
 % 计算二维直方图
@@ -51,10 +54,9 @@ for i=1:m
         fxy(c+1,d+1)=fxy(c+1,d+1)+1;
     end
 end
- %figure,
- mesh(fxy);
- title('二维灰度直方图');
-
+%figure,
+%  mesh(fxy);
+%  title('二维灰度直方图');
 Pxy=fxy/m/n;
 P0=zeros(256,256);
 Ui=zeros(256,256);
@@ -106,7 +108,6 @@ for i=1:256
 end
 
 %计算类间方差
-hmax=0;
 for i=1:256
     for j=1:256
         if P0(i,j)~=0&P1(i,j)~=0
@@ -126,86 +127,78 @@ for i=1:256
         end
     end
 end
-hmax
-s
-t
+hmax;
+s;
+t;
+
+
+%根据阈值分割图片
 z=ones(m,n);
-%c=zeros(m,n);
 for i=1:m
     for j=1:n
         if a(i,j)<=s&a2(i,j)<=t
-            %if double(b(i,j))+double(a2(i,j))<=s+t
             z(i,j)=0;
         end
     end
 end
-
-figure(1),
+%显示图片
+figure(2),
 imshow(z);
 toc
 
-%%%%%%%%%%%%%%һά
-[m,n,k]=size(I);
-if(k==3)
-    a=rgb2gray(I);
-else
-    a=I;
-end
-count=imhist(a);
-[m,n]=size(a);
-N=m*n;
-L=256;
-count=count/N;
-
-for i=1:L
-    if count(i)~=0
-        st=i-1;
-        break;
-    end
-end
-for i=L:-1:1
-    if count(i)~=0
-        nd=i-1;
-        break;
-    end
-end
-f=count(st+1:nd+1);  %f��ÿ���Ҷȳ��ֵĸ���
-p=st;   q=nd-st;
-u=0;
-for i=1:q
-    u=u+f(i)*(p+i-1);  %u�����ص�ƽ��ֵ
-    ua(i)=u;           %ua��i����ǰi�����ص�ƽ��Ҷ�ֵ
-end;
-
-for i=1:q
-    w(i)=sum(f(1:i));  %w��i����ǰi�����ص��ۼӸ���
-end;
-
-d=(u*w-ua).^2./(w.*(1-w));
-[y,tp]=max(d);  %����ȡ����������ֵ��ȡ���ֵ�ĵ�
-th=tp+p;
-
-% count1=imhist(a)/(m*n);
-% sumN=0;
-% for i=1:256
-%     sumN=sumN+count1(i);
-%     if(sumN>=0.5)
-%         th=i;
+% [m,n,k]=size(I);
+% if(k==3)
+%     a=rgb2gray(I);
+% else
+%     a=I;
+% end
+% count=imhist(a);
+% [m,n]=size(a);
+% N=m*n;
+% L=256;
+% count=count/N;
+% 
+% for i=1:L
+%     if count(i)~=0
+%         st=i-1;
 %         break;
 %     end
 % end
-
-
-for i=1:m
-    for j=1:n
-        if a(i,j)>th
-            a(i,j)=255;
-        else
-            a(i,j)=0;
-        end
-    end
-end
-figure(2),imshow(a);
+% for i=L:-1:1
+%     if count(i)~=0
+%         nd=i-1;
+%         break;
+%     end
+% end
+% f=count(st+1:nd+1);  
+% p=st;   q=nd-st;
+% u=0;
+% for i=1:q
+%     u=u+f(i)*(p+i-1); 
+%     ua(i)=u;           
+% end;
+% 
+% for i=1:q
+%     w(i)=sum(f(1:i));  
+% end;
+% 
+% d=(u*w-ua).^2./(w.*(1-w));
+% [y,tp]=max(d);  
+% th=tp+p;
+% 
+% 
+% 
+% 
+% for i=1:m
+%     for j=1:n
+%         if a(i,j)>th
+%             a(i,j)=255;
+%         else
+%             a(i,j)=0;
+%         end
+%     end
+% end
+% figure(2),imshow(a);
 
 
 
