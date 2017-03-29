@@ -10,7 +10,7 @@ for i=1:popsize
     end
 end
 j=j-1;
-if rem(j,2)~=0
+if rem(j,2)~=0  % È¡Óà£¨rem£©
     j=j-1;
 end
 if j>=2

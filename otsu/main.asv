@@ -7,7 +7,7 @@ global    lchrom  popsize cross_rate mutation_rate
 global maxgen  m n fit gen threshold A  C
 
 
-A=imread('2.jpg');     % 读入图片
+A=imread('1.jpg');     % 读入图片
 % % figure(1);
 % imshow(A);
 [m,n,k]=size(A);
@@ -29,12 +29,12 @@ for gen=1:maxgen
     generation;  %遗传操作
 end
 findresult; %图像分割结果
-% %%%输出进化曲线?
-% figure;
-% gen=1:maxgen;
-% plot(gen,fit(1,gen)); 
-% title('最佳适应度值进化曲线');
-% figure;
-% plot(gen,threshold(1,gen));
-% title('每一代的最佳阈值进化曲线');
+%%%输出进化曲线?
+figure;
+gen=1:maxgen;
+plot(gen,fit(1,gen)); 
+title('最佳适应度值进化曲线');
+figure;
+plot(gen,threshold(1,gen));
+title('每一代的最佳阈值进化曲线');
 toc

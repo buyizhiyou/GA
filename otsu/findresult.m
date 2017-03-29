@@ -1,24 +1,24 @@
 function findresult()
-global maxgen yuzhi m n C  A 
-result=floor(yuzhi(1,maxgen)) %resultä¸ºæœ€ä½³é˜ˆå€¼
+global maxgen threshold m n C  
+result=floor(threshold(1,maxgen)) %resultÎª×î¼ÑãĞÖµ
 %C=imresize(A,0.3);
 % % imshow(A);
-% title('åŸå§‹å›¾åƒ')
+% title('Ô­Ê¼Í¼Ïñ')
 % figure;
 subplot(1,2,1)
 imshow(C);
-title('åŸå§‹å›¾åƒçš„ç°åº¦å›¾')
+title('Ô­Ê¼Í¼ÏñµÄ»Ò¶ÈÍ¼')
 [m,n]=size(C);
-%ç”¨æ‰€æ‰¾åˆ°çš„é˜ˆå€¼åˆ†å‰²å›¾è±¡
+%ÓÃËùÕÒµ½µÄãĞÖµ·Ö¸îÍ¼Ïó
 for i=1:m
     for j=1:n
         if C(i,j)<=result
             C(i,j)=0;
         else
-            C(i,j)=255;
+            C(i,j)=200;
         end
     end
 end
 subplot(1,2,2)
 imshow(C);
-title('é˜ˆå€¼åˆ†å‰²åçš„å›¾åƒ');
+title('ãĞÖµ·Ö¸îºóµÄÍ¼Ïñ');

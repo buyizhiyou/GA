@@ -1,14 +1,16 @@
 function fitness_order()
-global lchrom oldpop fitness popsize chrom fit gen C m n  fitness1 yuzhisum
-global lowsum higsum u1 u2 yuzhi gen oldpop1 popsize1 b1 b yuzhi1 
+global lchrom oldpop fitness popsize chrom fit gen C m n  fitness1 thresholdsum
+global lowsum higsum u1 u2 threshold  oldpop1 popsize1 b1 b  
 if popsize>=10
     popsize=ceil(popsize-0.03*gen);
+end   %Ô½½ø»¯µ½ºóÀ´Ô½¼õÉÙÖÖÈº¹æÄ£
+if gen==100     %µ±½ø»¯µ½Ä©ÆÚµÄÊ±ºòµ÷ÕûÖÖÈº¹æÄ£ºÍ½»²æ¡¢±äÒì¸ÅÂÊ
+    cross_rate=0.35;        %½»²æ¸ÅÂÊ
+    mutation_rate=0.01;     %±äÒì¸ÅÂÊ
 end
-if gen==100     %å½“è¿›åŒ–åˆ°æœ«æœŸçš„æ—¶å€™è°ƒæ•´ç§ç¾¤è§„æ¨¡å’Œäº¤å‰ã€å˜å¼‚æ¦‚ç‡
-    cross_rate=0.35;        %äº¤å‰æ¦‚ç‡
-    mutation_rate=0.01;     %å˜å¼‚æ¦‚ç‡
-end
-%å¦‚æœä¸æ˜¯ç¬¬ä¸€ä»£åˆ™å°†ä¸Šä¸€ä»£æ“ä½œåçš„ç§ç¾¤æ ¹æ®æ­¤ä»£çš„ç§ç¾¤è§„æ¨¡è£…å…¥æ­¤ä»£ç§ç¾¤ä¸­
+
+
+%Èç¹û²»ÊÇµÚÒ»´úÔò½«ÉÏÒ»´ú²Ù×÷ºóµÄÖÖÈº¸ù¾İ´Ë´úµÄÖÖÈº¹æÄ£×°Èë´Ë´úÖÖÈºÖĞ
 if gen>1   
     t=oldpop;
     j=popsize1;
@@ -19,7 +21,8 @@ if gen>1
         j=j-1;
     end
 end
-%è®¡ç®—é€‚åº¦å€¼å¹¶æ’åº
+
+%¼ÆËãÊÊ¶ÈÖµ²¢ÅÅĞò
 for i=1:popsize
     lowsum=0;
     higsum=0;
@@ -28,22 +31,22 @@ for i=1:popsize
     chrom=oldpop(i,:);
     c=0;
     for j=1:lchrom
-        c=c+chrom(1,j)*(2^(lchrom-j));
+         c=c+chrom(1,j)*(2^(lchrom-j));%¶ş½øÖÆ×ªÎªÊ®½øÖÆ
     end
-    b(1,i)=c*255/(2^lchrom-1);  %è½¬åŒ–åˆ°ç°åº¦å€¼        
+    b(1,i)=c*255/(2^lchrom-1);  %×ª»¯µ½»Ò¶ÈÖµ        
     for x=1:m
         for y=1:n
             if C(x,y)<=b(1,i)
-                lowsum=lowsum+double(C(x,y));%ç»Ÿè®¡ä½äºé˜ˆå€¼çš„ç°åº¦å€¼çš„æ€»å’Œ
-                lownum=lownum+1; %ç»Ÿè®¡ä½äºé˜ˆå€¼çš„ç°åº¦å€¼çš„åƒç´ çš„æ€»ä¸ªæ•°
+                lowsum=lowsum+double(C(x,y));%Í³¼ÆµÍÓÚãĞÖµµÄ»Ò¶ÈÖµµÄ×ÜºÍ
+                lownum=lownum+1; %Í³¼ÆµÍÓÚãĞÖµµÄ»Ò¶ÈÖµµÄÏñËØµÄ×Ü¸öÊı?
             else
-                higsum=higsum+double(C(x,y));%ç»Ÿè®¡é«˜äºé˜ˆå€¼çš„ç°åº¦å€¼çš„æ€»å’Œ
-                hignum=hignum+1; %ç»Ÿè®¡é«˜äºé˜ˆå€¼çš„ç°åº¦å€¼çš„åƒç´ çš„æ€»ä¸ªæ•°
+                higsum=higsum+double(C(x,y));%Í³¼Æ¸ßÓÚãĞÖµµÄ»Ò¶ÈÖµµÄ×ÜºÍ
+                hignum=hignum+1; %Í³¼Æ¸ßÓÚãĞÖµµÄ»Ò¶ÈÖµµÄÏñËØµÄ×Ü¸öÊı
             end
         end
     end
     if lownum~=0
-        u1=lowsum/lownum; %u1ã€u2ä¸ºå¯¹åº”äºä¸¤ç±»çš„å¹³å‡ç°åº¦å€¼
+        u1=lowsum/lownum; %u1¡¢u2Îª¶ÔÓ¦ÓÚÁ½ÀàµÄÆ½¾ù»Ò¶ÈÖµ
     else
         u1=0;
     end
@@ -52,9 +55,11 @@ for i=1:popsize
     else
         u2=0;
     end   
-    fitness(1,i)=lownum*hignum*(u1-u2)^2; %è®¡ç®—é€‚åº¦å€¼
+    fitness(1,i)=lownum*hignum*(u1-u2)^2; %¼ÆËãÊÊ¶ÈÖµ?
 end
-if gen==1 %å¦‚æœä¸ºç¬¬ä¸€ä»£ï¼Œä»å°å¾€å¤§æ’åº
+
+
+if gen==1 %Èç¹ûÎªµÚÒ»´ú£¬´ÓĞ¡Íù´óÅÅĞò
     for i=1:popsize
         j=i+1;
         while j<=popsize
@@ -78,7 +83,7 @@ if gen==1 %å¦‚æœä¸ºç¬¬ä¸€ä»£ï¼Œä»å°å¾€å¤§æ’åº
         oldpop1(i,:)=oldpop(i,:);
     end
     popsize1=popsize;
-else %å¤§äºä¸€ä»£æ—¶è¿›è¡Œå¦‚ä¸‹ä»å°åˆ°å¤§æ’åº
+else %´óÓÚÒ»´úÊ±½øĞĞÈçÏÂ´ÓĞ¡µ½´óÅÅĞò
     for i=1:popsize
         j=i+1;
         while j<=popsize
@@ -97,35 +102,37 @@ else %å¤§äºä¸€ä»£æ—¶è¿›è¡Œå¦‚ä¸‹ä»å°åˆ°å¤§æ’åº
         end
     end
 end 
-%ä¸‹è¾¹å¯¹ä¸Šä¸€ä»£ç¾¤ä½“è¿›è¡Œæ’åº
-for i=1:popsize1
-    j=i+1;
-    while j<=popsize1
-        if fitness1(1,i)>fitness1(1,j)
-            tempf=fitness1(1,i);
-            tempc=oldpop1(i,:);
-            tempb=b1(1,i);
-            b1(1,i)=b1(1,j);
-            b1(1,j)=tempb;
-            fitness1(1,i)=fitness1(1,j);
-            oldpop1(i,:)=oldpop1(j,:);
-            fitness1(1,j)=tempf;
-            oldpop1(j,:)=tempc;
-        end
-        j=j+1;
-    end
-end
-%ä¸‹è¾¹ç»Ÿè®¡æ¯ä¸€ä»£ä¸­çš„æœ€ä½³é˜ˆå€¼å’Œæœ€ä½³é€‚åº”åº¦å€¼
+
+% %ÏÂ±ß¶ÔÉÏÒ»´úÈºÌå½øĞĞÅÅĞò
+% for i=1:popsize1
+%     j=i+1;
+%     while j<=popsize1
+%         if fitness1(1,i)>fitness1(1,j)
+%             tempf=fitness1(1,i);
+%             tempc=oldpop1(i,:);
+%             tempb=b1(1,i);
+%             b1(1,i)=b1(1,j);
+%             b1(1,j)=tempb;
+%             fitness1(1,i)=fitness1(1,j);
+%             oldpop1(i,:)=oldpop1(j,:);
+%             fitness1(1,j)=tempf;
+%             oldpop1(j,:)=tempc;
+%         end
+%         j=j+1;
+%     end
+% end
+
+%ÏÂ±ßÍ³¼ÆÃ¿Ò»´úÖĞµÄ×î¼ÑãĞÖµºÍ×î¼ÑÊÊÓ¦¶ÈÖµ
 if gen==1
     fit(1,gen)=fitness(1,popsize);
-    yuzhi(1,gen)=b(1,popsize);
-    yuzhisum=0;
+    threshold(1,gen)=b(1,popsize);
+    thresholdsum=0;
 else
     if fitness(1,popsize)>fitness1(1,popsize1)
-        yuzhi(1,gen)=b(1,popsize); %æ¯ä¸€ä»£ä¸­çš„æœ€ä½³é˜ˆå€¼
-        fit(1,gen)=fitness(1,popsize);%æ¯ä¸€ä»£ä¸­çš„æœ€ä½³é€‚åº”åº¦
+        threshold(1,gen)=b(1,popsize); %Ã¿Ò»´úÖĞµÄ×î¼ÑãĞÖµ?
+        fit(1,gen)=fitness(1,popsize);%Ã¿Ò»´úÖĞµÄ×î¼ÑÊÊÓ¦¶È
     else
-        yuzhi(1,gen)=b1(1,popsize1); 
+        threshold(1,gen)=b1(1,popsize1); 
         fit(1,gen)=fitness1(1,popsize1);
     end
 end

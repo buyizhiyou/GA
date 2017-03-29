@@ -1,10 +1,10 @@
 function mutation()
-global popsize lchrom mutation_rate temp newpop oldpop
-sum=lchrom*popsize;    %æ€»åŸºå› ä¸ªæ•°
-mutnum=round(mutation_rate*sum);    %å‘ç”Ÿå˜å¼‚çš„åŸºå› æ•°ç›®
+global popsize lchrom mutation_rate temp  oldpop
+sum=lchrom*popsize;    %×Ü»ùÒò¸öÊı
+mutnum=round(mutation_rate*sum);    %·¢Éú±äÒìµÄ»ùÒòÊıÄ¿
 for i=1:mutnum
-    s=rem((round(rand*(sum-1))),lchrom)+1; %ç¡®å®šæ‰€åœ¨åŸºå› çš„ä½æ•°
-    t=ceil((round(rand*(sum-1)))/lchrom); %ç¡®å®šå˜å¼‚çš„æ˜¯å“ªä¸ªåŸºå› 
+    s=rem((round(rand*(sum-1))),lchrom)+1; %È·¶¨ËùÔÚ»ùÒòµÄÎ»Êı
+    t=ceil((round(rand*(sum-1)))/lchrom); %È·¶¨±äÒìµÄÊÇÄÄ¸ö»ùÒò
     if t<1
         t=1;
     end

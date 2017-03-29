@@ -1,5 +1,5 @@
 function generation()
-fitness_order;                  %璁＄畻閫傚簲搴﹀�煎強鎺掑簭
-select;                         %閫夋嫨鎿嶄綔
-crossover;                      %浜ゅ弶
-mutation;                       %鍙樺紓
+fitness_order;                  %计算适应度值及排序?
+select;                         %选择
+crossover;                      %交叉
+mutation;                       %变异
