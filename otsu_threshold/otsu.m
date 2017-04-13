@@ -84,6 +84,9 @@ elseif n==3
     w0 = w;
     w2 = fliplr(cumsum(fliplr(P)));%fliplr 实现矩阵左右翻转
     [w0,w2] = ndgrid(w0,w2);
+% [X1,X2,X3,...] = ndgrid(x1,x2,x3,...)
+% 这里，x1、x2、x3……分别限定了某一维的绘图区间，结合起来就限定了绘图区域。例如，1<=x<=3,4<=y<=10,-
+% 1000<=z<=1000就限定了三维空间中的一个区域。
     
     mu0 = mu./w;
     mu2 = fliplr(cumsum(fliplr((1:nbins).*P))./cumsum(fliplr(P)));

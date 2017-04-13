@@ -1,4 +1,4 @@
-%otsu_2d
+c%otsu_2d
 clear all;
 close all;
 clc;
