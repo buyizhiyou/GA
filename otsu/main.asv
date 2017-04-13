@@ -7,7 +7,7 @@ global    lchrom  popsize cross_rate mutation_rate
 global maxgen  m n fit gen threshold A  C
 
 
-A=imread('1.jpg');     % 读入图片
+A=imread('2.jpg');     % 读入图片
 % % figure(1);
 % imshow(A);
 [m,n,k]=size(A);
@@ -16,8 +16,7 @@ if(k==3)
 else
     C=A;
 end
-C=imnoise(C,'gaussian',0,0.0015);
-
+a=imnoise(a,'gaussian',0,0.0015);
 lchrom=8;              %染色体长度
 popsize=20;            %种群大小
 cross_rate=0.8;        %交叉概率

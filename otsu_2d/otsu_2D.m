@@ -1,4 +1,4 @@
-c%otsu_2d
+%otsu_2d
 clear all;
 close all;
 clc;
@@ -17,10 +17,10 @@ end
 
 
 %添加噪声
-%b=imnoise(a,'salt & pepper',0.003);
-%b=imnoise(b,'gaussian',0,0.0015);
-%b = IMNOISE(a,'speckle',0.09);
-%b=a;
+%a=imnoise(a,'salt & pepper',0.003);
+a=imnoise(a,'gaussian',0,0.0015);
+%a=imnoise(a,'speckle',0.09);
+
 
 a0=double(a);%a0:   220x218 double   存放图像的灰度值矩阵
 h=1;

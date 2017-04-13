@@ -1,6 +1,6 @@
 X=imread('2.jpg');
 imshow(X)
-X(1,1,:)
+
 
 XR=X(:,:,1);
 XG=X(:,:,2);
