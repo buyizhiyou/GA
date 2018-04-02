@@ -6,9 +6,7 @@ Genetic algorithm for image segmentation
 大标题  
 ===================================  
   大标题一般显示工程名,类似html的\<h1\>
-  你只要在标题下面跟上=====即可  
-  
-    
+  你只要在标题下面跟上=====即可      
 中标题  
 -----------------------------------  
   中标题一般显示重点项,类似html的\<h2\><br/>  
@@ -42,10 +40,10 @@ Genetic algorithm for image segmentation
 1.[点击这里你可以链接到www.google.com](http://www.google.com)<br>  
 2.[点击这里我你可以链接到我的博客](http://guoyunsky.iteye.com)<br>  
   
-###只是显示图片  
+### 只是显示图片  
 ![github](http://github.com/unicorn.png "github")  
   
-###想点击某个图片进入一个网页,比如我想点击github的icorn然后再进入www.github.com  
+### 想点击某个图片进入一个网页,比如我想点击github的icorn然后再进入www.github.com  
 [![image]](http://www.github.com/)  
 [image]: http://github.com/github.png "github"  
   
